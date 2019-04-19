@@ -11,8 +11,8 @@
 # 视图函数(Controller) API的难点在于设计
 from app.forms.book import SearchForm
 from app.web.blue_print import web
-from help import is_isbn_or_key
-from yushu_book import YushuBook
+from app.libs.help import is_isbn_or_key
+from app.spider.yushu_book import YushuBook
 from flask import jsonify, request
 
 

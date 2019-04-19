@@ -9,7 +9,7 @@
 """
 from flask import current_app
 
-from http_tool import HTTP
+from app.libs.http_tool import HTTP
 
 
 class YushuBook:
