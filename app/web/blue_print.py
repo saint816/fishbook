@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
-   File Name：     fisher
+   File Name：     blue_print
    Description :
    Author :       pengsheng
-   date：          2019-04-18
+   date：          2019-04-19
 -------------------------------------------------
 """
-from app import create_app
+from flask import jsonify, Blueprint
 
-app = create_app()
-
-if __name__ == '__main__':
-    app.run(debug=app.config['DEBUG'])
+web = Blueprint('web', __name__)

@@ -13,6 +13,7 @@ import requests
 class HTTP(object):
     @staticmethod
     def get(url, return_json=True):
+        pass
         '''
         使用requests发送get请求
         '''

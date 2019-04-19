@@ -1,15 +1,13 @@
 # -*- coding: utf-8 -*-
 """
 -------------------------------------------------
-   File Name：     fisher
+   File Name：     __init__
    Description :
    Author :       pengsheng
-   date：          2019-04-18
+   date：          2019-04-19
 -------------------------------------------------
 """
-from app import create_app
+# 导入之后才能去执行模块里面视图函数的注册
+from app.web import book
+from app.web import user
 
-app = create_app()
-
-if __name__ == '__main__':
-    app.run(debug=app.config['DEBUG'])
