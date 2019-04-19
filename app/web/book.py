@@ -12,13 +12,19 @@
 from app.web.blue_print import web
 from help import is_isbn_or_key
 from yushu_book import YushuBook
-from flask import jsonify
+from flask import jsonify, request
 
-# 创建蓝图
 
 # 视图函数 => 注册到蓝图 => 蓝图注册到flask核心对象(App)
-@web.route('/book/search/<q>/<page>')
-def search(q, page):
+@web.route('/book/search')
+def search():
+    """
+    Request Response Http请求头 POST内容
+    """
+    # 注意, request是通过http请求触发的才会有正确的值;
+    q = request.args['q']
+    page = request.args['page']
+
     isbn_or_key = is_isbn_or_key(q)
 
     if isbn_or_key == 'isbn':
