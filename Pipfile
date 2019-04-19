@@ -10,6 +10,7 @@ flask = "*"
 requests = "*"
 urllib = "*"
 urllib3 = "*"
+wtforms = "*"
 
 [requires]
 python_version = "3.7"

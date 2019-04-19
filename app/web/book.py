@@ -9,6 +9,7 @@
 """
 
 # 视图函数(Controller) API的难点在于设计
+from app.forms.book import SearchForm
 from app.web.blue_print import web
 from help import is_isbn_or_key
 from yushu_book import YushuBook
@@ -22,14 +23,16 @@ def search():
     Request Response Http请求头 POST内容
     """
     # 注意, request是通过http请求触发的才会有正确的值;
-    q = request.args['q']
-    page = request.args['page']
+    form = SearchForm(request.args)
+    if form.validate():
+        q = form.q.data.strip() # 去掉前后空格
+        page = form.page.data
+        isbn_or_key = is_isbn_or_key(q)
+        if isbn_or_key == 'isbn':
+            result = YushuBook.serch_by_isbn(q)
+        else:
+            result = YushuBook.serch_by_keyword(q ,page)
 
-    isbn_or_key = is_isbn_or_key(q)
-
-    if isbn_or_key == 'isbn':
-        result = YushuBook.serch_by_isbn(q)
+        return jsonify(result)
     else:
-        result = YushuBook.serch_by_keyword(q)
-
-    return jsonify(result)
+        return jsonify(form.errors)
