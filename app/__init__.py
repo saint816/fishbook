@@ -9,6 +9,8 @@
 """
 
 from flask import Flask
+
+from app.models.book import db
 from app.web.book import web
 
 def create_app():
@@ -16,6 +18,10 @@ def create_app():
     app.config.from_object('app.secure')
     app.config.from_object('app.setting')
     register_blueprint(app)
+    # 把数据库对象挂在到核心对象
+    db.init_app(app)
+    # 创建数据库表
+    db.create_all(app=app)
     return app
 
 def register_blueprint(app):

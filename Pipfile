@@ -11,6 +11,8 @@ requests = "*"
 urllib = "*"
 urllib3 = "*"
 wtforms = "*"
+flask-sqlalchemy = "*"
+cymysql = "*"
 
 [requires]
 python_version = "3.7"
