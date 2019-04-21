@@ -11,11 +11,11 @@
 # sqlalchemy
 # Flask_SQLAlchemy 对 sqlalchemy进行封装
 from sqlalchemy import Column, String, Integer
-from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from app.models.base import Base
 
-class Book(db.Model):
+
+class Book(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(50), nullable=False)
     _author = Column('author', String(30), default='未名')
