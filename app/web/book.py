@@ -9,8 +9,10 @@
 """
 
 # 视图函数(Controller) API的难点在于设计
+import json
+
 from app.forms.book import SearchForm
-from app.view_models.book import BookViewModel
+from app.view_models.book import BookCollection
 from app.web.blue_print import web
 from app.libs.help import is_isbn_or_key
 from app.spider.yushu_book import YushuBook
@@ -25,16 +27,23 @@ def search():
     """
     # 注意, request是通过http请求触发的才会有正确的值;
     form = SearchForm(request.args)
+    books = BookCollection()
+
     if form.validate():
-        q = form.q.data.strip() # 去掉前后空格
+        q = form.q.data.strip()  # 去掉前后空格
         page = form.page.data
         isbn_or_key = is_isbn_or_key(q)
+
+        yushu_book = YushuBook()
+
         if isbn_or_key == 'isbn':
-            result = YushuBook.serch_by_isbn(q)
-            result = BookViewModel.package_single(result, q)
+            yushu_book.serch_by_isbn(q)
         else:
-            result = YushuBook.serch_by_keyword(q ,page)
-            result = BookViewModel.package_collection(result, q)
-        return jsonify(result)
+            yushu_book.serch_by_keyword(q, page)
+
+        books.fill(yushu_book, q)
+
+        return json.dumps(books, default=lambda obj: obj.__dict__)
+
     else:
         return jsonify(form.errors)

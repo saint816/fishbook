@@ -9,4 +9,4 @@
 """
 from flask import jsonify, Blueprint
 
-web = Blueprint('web', __name__)
+web = Blueprint('web', __name__, template_folder='')

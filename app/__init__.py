@@ -14,7 +14,7 @@ from app.models.book import db
 from app.web.book import web
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__) # 默认是statics
     app.config.from_object('app.secure')
     app.config.from_object('app.setting')
     register_blueprint(app)
