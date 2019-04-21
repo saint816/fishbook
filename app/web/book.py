@@ -16,7 +16,7 @@ from app.view_models.book import BookCollection
 from app.web.blue_print import web
 from app.libs.help import is_isbn_or_key
 from app.spider.yushu_book import YushuBook
-from flask import jsonify, request
+from flask import jsonify, request, flash, render_template
 
 
 # 视图函数 => 注册到蓝图 => 蓝图注册到flask核心对象(App)
@@ -42,8 +42,14 @@ def search():
             yushu_book.serch_by_keyword(q, page)
 
         books.fill(yushu_book, q)
-
-        return json.dumps(books, default=lambda obj: obj.__dict__)
-
+        # return json.dumps(books, default=lambda obj: obj.__dict__)
     else:
-        return jsonify(form.errors)
+        flash('搜索关键字格式不合要求,请重新输入')
+        # return jsonify(form.errors)
+
+    return render_template('search_result.html', books=books)
+
+
+@web.route('/book/<isbn>/detail')
+def book_detail(isbn):
+    pass
