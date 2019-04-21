@@ -10,6 +10,7 @@
 
 # 视图函数(Controller) API的难点在于设计
 from app.forms.book import SearchForm
+from app.view_models.book import BookViewModel
 from app.web.blue_print import web
 from app.libs.help import is_isbn_or_key
 from app.spider.yushu_book import YushuBook
@@ -30,9 +31,10 @@ def search():
         isbn_or_key = is_isbn_or_key(q)
         if isbn_or_key == 'isbn':
             result = YushuBook.serch_by_isbn(q)
+            result = BookViewModel.package_single(result, q)
         else:
             result = YushuBook.serch_by_keyword(q ,page)
-
+            result = BookViewModel.package_collection(result, q)
         return jsonify(result)
     else:
         return jsonify(form.errors)

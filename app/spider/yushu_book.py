@@ -21,6 +21,15 @@ class YushuBook:
     def serch_by_isbn(cls, isbn):
         url = cls.isbn_url.format(isbn)
         result = HTTP.get(url)
+
+        # 缓存数据到本地数据库,不用频繁的去请求API
+        # book = query_from_mysql(isbn
+        # if book :
+        #   return book
+        # else
+        #  save(result)
+
+
         return result
 
     @classmethod
