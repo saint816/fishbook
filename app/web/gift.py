@@ -18,17 +18,12 @@ def my_gifts():
 @login_required
 def save_to_gifts(isbn):
     if current_user.can_saveto_list:
-        try:
+        with db.auto_commit():
             gift = Gift()
             gift.isbn = isbn
-            # 当前登录的用户id
             current_user.beans += current_app.config['BEANS_UPLOAD_ONE_BOOK']
             gift.uid = current_user.id
             db.session.add(gift)
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback() # 如果数据库操作异常不回滚的话,后续数据库的操作都会失败
-            raise e
     else:
         flash('这本书已存在于你的心愿单或者赠送清单,请勿重复添加')
 

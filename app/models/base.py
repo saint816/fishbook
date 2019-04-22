@@ -1,8 +1,25 @@
 # class BaseMixin(object):
 #     def __getitem__(self, key):
 #         return getattr(self, key)
-from flask_sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy
 from sqlalchemy import Column, SmallInteger, Integer
+
+from contextlib import contextmanager
+
+
+class SQLAlchemy(_SQLAlchemy):
+    @contextmanager
+    def auto_commit(self):
+        """
+        自动处理数据的commit与异常回滚
+        """
+        try:
+            yield
+            self.session.commit()
+        except Exception as a:
+            self.session.rollback()
+            raise a
+
 
 db = SQLAlchemy()
 
