@@ -16,6 +16,7 @@ from app.models.base import Base
 
 
 class Book(Base):
+    __tablename__ = 'book'
     id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(50), nullable=False)
     _author = Column('author', String(30), default='未名')
@@ -27,6 +28,3 @@ class Book(Base):
     isbn = Column(String(15), nullable=False, unique=True)
     summary = Column(String(1000))
     image = Column(String(50))
-
-    # ORM 和 Code First
-    # ORM 范围更广,涉及到表的各种操作

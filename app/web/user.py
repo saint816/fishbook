@@ -10,6 +10,6 @@
 
 from app.web.blue_print import web
 
-@web.route('/login')
+@web.route('/login_abandoned')
 def login_abandoned():
     return '登录页面'
