@@ -42,15 +42,15 @@ class User(Base, UserMixin):
         if is_isbn_or_key(isbn) != 'isbn':
             return False
         yushu_book = YushuBook()
-        yushu_book.search_by_isbn(isbn)
+        yushu_book.serch_by_isbn(isbn)
         if not yushu_book.first:
             return False
 
         # 不允许同一用户同时赠送多本相同图书
-        gifting = Gift.query.filter_by(uid = self.id, isbn=isbn, launched=False).first
+        gifting = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False).first
 
         # 一个用户不能同时成为赠送者和索要者
-        wishing = Wish.query.filter_by(uid = self.id, isbn=isbn, launched=False).first
+        wishing = Wish.query.filter_by(uid=self.id, isbn=isbn, launched=False).first
 
         # 既不在赠送清单,又不在心愿清单才能添加
         if not gifting and not wishing:
@@ -60,6 +60,7 @@ class User(Base, UserMixin):
 
     def get_id(self):
         return self.id
+
 
 # 这个函数把告诉了login_manager哪个是用户模型
 @login_manager.user_loader

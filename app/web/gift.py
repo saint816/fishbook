@@ -1,4 +1,4 @@
-from flask import current_app, flash
+from flask import current_app, flash, redirect, url_for
 from flask_login import login_required, current_user
 
 from app.models.base import db
@@ -17,7 +17,7 @@ def my_gifts():
 @web.route('/gifts/book/<isbn>')
 @login_required
 def save_to_gifts(isbn):
-    if current_user.can_saveto_list:
+    if current_user.can_saveto_list(isbn):
         with db.auto_commit():
             gift = Gift()
             gift.isbn = isbn
@@ -26,6 +26,8 @@ def save_to_gifts(isbn):
             db.session.add(gift)
     else:
         flash('这本书已存在于你的心愿单或者赠送清单,请勿重复添加')
+    # 视图函数必须要返回值
+    return redirect(url_for('web.book_detail', isbn=isbn))
 
 
 @web.route('/gifts/<gid>/redraw')
