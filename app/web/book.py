@@ -46,7 +46,7 @@ def search():
             yushu_book.serch_by_keyword(q, page)
 
         books.fill(yushu_book, q)
-        # return json.dumps(books, default=lambda obj: obj.__dict__)
+        return json.dumps(books, default=lambda obj: obj.__dict__)
     else:
         flash('搜索关键字格式不合要求,请重新输入')
         # return jsonify(form.errors)

@@ -1,7 +1,9 @@
 from flask import current_app
-from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, desc
+from sqlalchemy import Column, String, Integer, ForeignKey, Boolean, desc, func
 from sqlalchemy.orm import relationship
-from app.models.base import Base
+
+from app.models.wish import Wish
+from app.models.base import Base, db
 from app.spider.yushu_book import YushuBook
 
 
@@ -13,6 +15,22 @@ class Gift(Base):
     user = relationship('User')
     isbn = Column(String(13))
     launched = Column(Boolean, default=False)
+
+    @classmethod
+    def get_user_gifts(cls, uid):
+        gifts = Gift.query.filter_by(uid=uid, launched=False).order_by(desc(Gift.create_time)).all()
+        return gifts
+
+    @classmethod
+    def get_wish_counts(cls, isbn_list):
+        # 到Wish表中检索出某个礼物的心愿数量
+        # 分组统计, 得到的数据结构[(1, '2882928989'), (2, '88288829393)]
+        # db.session.query适合跨表查询,或者比较复杂的查询
+        count_list = db.session.query(func.count(Wish.id), Wish.isbn).filter(Wish.launched == False,
+                                                                             Wish.isbn.in_(isbn_list),
+                                                                             Wish.status == 1).group_by(Wish.isbn).all()
+
+        return [{'count': w[0], 'isbn': w[1]} for w in count_list]
 
     @property
     def book(self):

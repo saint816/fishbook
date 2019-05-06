@@ -7,6 +7,6 @@
    date：          2019-04-19
 -------------------------------------------------
 """
-from flask import jsonify, Blueprint
+from flask import Blueprint
 
 web = Blueprint('web', __name__, template_folder='')
