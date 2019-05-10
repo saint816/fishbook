@@ -29,9 +29,9 @@ def create_app():
     register_blueprint(app)
 
     # 把数据库对象挂在到核心对象
-    db.init_app(app)
     # 创建数据库表
     with app.app_context():
+        db.init_app(app)
         db.create_all()
     return app
 
